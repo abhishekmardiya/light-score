@@ -49,13 +49,16 @@ export function ExportButtons({ results, disabled }: ExportButtonsProps) {
     return null;
   }
 
+  const btnClass =
+    "w-full shrink-0 whitespace-nowrap rounded-lg border border-zinc-300 bg-white px-4 py-2.5 text-sm font-medium text-zinc-700 hover:bg-zinc-100 disabled:opacity-50 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700 sm:w-auto";
+
   return (
-    <div className="flex gap-2">
+    <div className="flex flex-col gap-2 sm:flex-row sm:flex-nowrap">
       <button
         type="button"
         onClick={() => exportToJson(results)}
         disabled={disabled}
-        className={`rounded-lg border border-zinc-300 bg-white px-4 py-2 text-base font-medium text-zinc-700 hover:bg-zinc-100 disabled:opacity-50 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700 ${disabled ? "cursor-not-allowed" : "cursor-pointer"}`}
+        className={`${btnClass} ${disabled ? "cursor-not-allowed" : "cursor-pointer"}`}
       >
         Export JSON
       </button>
@@ -63,7 +66,7 @@ export function ExportButtons({ results, disabled }: ExportButtonsProps) {
         type="button"
         onClick={() => exportToCsv(results)}
         disabled={disabled}
-        className={`rounded-lg border border-zinc-300 bg-white px-4 py-2 text-base font-medium text-zinc-700 hover:bg-zinc-100 disabled:opacity-50 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700 ${disabled ? "cursor-not-allowed" : "cursor-pointer"}`}
+        className={`${btnClass} ${disabled ? "cursor-not-allowed" : "cursor-pointer"}`}
       >
         Export CSV
       </button>

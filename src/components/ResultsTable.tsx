@@ -113,10 +113,20 @@ function ScoreGauge({ label, score }: { label: string; score: number | null }) {
   );
 }
 
-function InsightItem({ audit }: { audit: PSIAudit }) {
+function InsightItem({
+  audit,
+  variant,
+}: {
+  audit: PSIAudit;
+  variant: "red" | "amber";
+}) {
+  const iconColor =
+    variant === "red"
+      ? "text-red-500"
+      : "text-amber-500 dark:text-amber-400";
   return (
     <div className="flex items-center gap-2 border-b border-zinc-100 py-2.5 last:border-b-0 dark:border-zinc-700">
-      <span className="shrink-0 text-xs text-red-500">▲</span>
+      <span className={`shrink-0 text-xs ${iconColor}`}>▲</span>
       <span className="truncate text-sm font-medium text-zinc-700 dark:text-zinc-300">
         {audit.title}
       </span>
@@ -156,47 +166,66 @@ export function ResultsTable({ results }: { results: PSIResultWithMeta[] }) {
           (a, b) => getInsightEffectScore(b) - getInsightEffectScore(a)
         );
 
+        const performanceScore = categories.performance?.score ?? null;
+        const isHighPerforming =
+          performanceScore != null && performanceScore >= 0.8;
+        const insightVariant = isHighPerforming ? "amber" : "red";
+
         return (
           <div
             key={`${url}-${data.lighthouseResult.fetchTime}-${index}`}
             className="rounded-xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-600 dark:bg-zinc-800"
           >
-            <div className="mb-4">
+            <div className="mb-4 flex flex-col gap-3 rounded-lg border border-zinc-200 bg-zinc-100 px-4 py-3 dark:border-zinc-600 dark:bg-zinc-700/50 dark:text-zinc-200 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
               <Link
                 prefetch={false}
                 href={url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block rounded-lg border border-zinc-200 bg-zinc-100 px-4 py-3 text-sm font-medium text-zinc-800 transition-colors hover:bg-zinc-200 hover:underline dark:border-zinc-600 dark:bg-zinc-700/50 dark:text-zinc-200 dark:hover:bg-zinc-700"
+                className="min-w-0 flex-1 text-sm font-medium text-inherit hover:underline break-all"
                 title={url}
               >
-                <span className="break-all">{url}</span>
+                {url}
               </Link>
-            </div>
-            <div className="mb-4 flex flex-wrap items-end justify-between gap-6">
-              <div className="flex flex-wrap gap-8">
-                {scores.map(({ id, title, score }) => (
-                  <ScoreGauge key={id} label={title} score={score} />
-                ))}
-              </div>
               <Link
                 prefetch={false}
                 href={pageSpeedUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="shrink-0 cursor-pointer rounded-lg bg-zinc-900 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200"
+                className="shrink-0 cursor-pointer self-start rounded-lg bg-zinc-900 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200"
               >
                 View detailed score
               </Link>
             </div>
+            <div className="mb-4 grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-8">
+              {scores.map(({ id, title, score }) => (
+                <ScoreGauge key={id} label={title} score={score} />
+              ))}
+            </div>
             {sortedInsights.length > 0 && (
-              <div className="mt-4 rounded-lg border border-red-200 bg-red-50/50 dark:border-red-900/50 dark:bg-red-950/20">
-                <h3 className="border-b border-red-200 px-4 py-2.5 text-sm font-semibold text-red-700 dark:border-red-900/50 dark:text-red-400">
+              <div
+                className={`mt-4 rounded-lg border ${
+                  insightVariant === "red"
+                    ? "border-red-200 bg-red-50/50 dark:border-red-900/50 dark:bg-red-950/20"
+                    : "border-amber-200 bg-amber-50/50 dark:border-amber-900/50 dark:bg-amber-950/20"
+                }`}
+              >
+                <h3
+                  className={`border-b px-4 py-2.5 text-sm font-semibold ${
+                    insightVariant === "red"
+                      ? "border-red-200 text-red-700 dark:border-red-900/50 dark:text-red-400"
+                      : "border-amber-200 text-amber-700 dark:border-amber-900/50 dark:text-amber-400"
+                  }`}
+                >
                   Insights
                 </h3>
                 <div className="px-4 py-2">
                   {sortedInsights.map((audit) => (
-                    <InsightItem key={audit.id} audit={audit} />
+                    <InsightItem
+                      key={audit.id}
+                      audit={audit}
+                      variant={insightVariant}
+                    />
                   ))}
                 </div>
               </div>

@@ -204,8 +204,8 @@ export function AuditForm() {
 
       {results.length > 0 && (
         <section>
-          <div className="mb-4 flex items-center justify-end gap-4">
-            <h2 className="mr-auto text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+          <div className="mb-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-end">
+            <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100 sm:mr-auto">
               Results ({results.length})
               {totalTimeMs !== null && (
                 <span className="ml-2 text-base font-normal text-zinc-500 dark:text-zinc-400">

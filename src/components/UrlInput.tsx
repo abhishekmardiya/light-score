@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { isValidUrl } from "@/lib/utils";
 
 const PASTE_SPLIT = /\s*[,\n]\s*/;
@@ -125,7 +126,16 @@ export function UrlInput({
               key={`${i}-${url}`}
               className={`group flex w-full items-center justify-between gap-4 rounded-lg px-3 py-1.5 text-sm break-all ${CHIP_COLORS[i % CHIP_COLORS.length]}`}
             >
-              <span className="min-w-0 break-all">{url}</span>
+              <span className="min-w-0 flex-1 break-all">
+                <Link
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline text-inherit hover:underline"
+                >
+                  {url}
+                </Link>
+              </span>
               <button
                 type="button"
                 onClick={() => removeUrl(i)}
