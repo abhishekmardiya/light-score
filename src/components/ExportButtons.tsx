@@ -1,8 +1,12 @@
 "use client";
 
-import { psiResultsToCsv, downloadBlob, hasHighEffectInsight } from "@/lib/utils";
-import { INSIGHT_AUDIT_IDS } from "@/lib/psi-api";
 import type { PSIResultWithMeta } from "@/components/AuditForm";
+import { INSIGHT_AUDIT_IDS } from "@/lib/psi-api";
+import {
+  downloadBlob,
+  hasHighEffectInsight,
+  psiResultsToCsv,
+} from "@/lib/utils";
 
 interface ExportButtonsProps {
   results: PSIResultWithMeta[];

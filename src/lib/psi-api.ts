@@ -51,8 +51,12 @@ export interface PSIResponse {
 
 function trimResponse(raw: Record<string, unknown>): PSIResponse {
   const lh = raw.lighthouseResult as Record<string, unknown> | undefined;
-  const categories = lh?.categories as Record<string, Record<string, unknown>> | undefined;
-  const audits = lh?.audits as Record<string, Record<string, unknown>> | undefined;
+  const categories = lh?.categories as
+    | Record<string, Record<string, unknown>>
+    | undefined;
+  const audits = lh?.audits as
+    | Record<string, Record<string, unknown>>
+    | undefined;
 
   const trimmedCategories: Record<string, PSICategory> = {};
   for (const id of CATEGORY_IDS) {
@@ -87,7 +91,9 @@ function trimResponse(raw: Record<string, unknown>): PSIResponse {
       categories: trimmedCategories,
       audits: trimmedAudits,
     },
-    loadingExperience: raw.loadingExperience as Record<string, unknown> | undefined,
+    loadingExperience: raw.loadingExperience as
+      | Record<string, unknown>
+      | undefined,
     analysisUTCTimestamp: raw.analysisUTCTimestamp as string | undefined,
   };
 }
@@ -95,10 +101,10 @@ function trimResponse(raw: Record<string, unknown>): PSIResponse {
 export async function fetchPageSpeedInsights(
   url: string,
   strategy: "desktop" | "mobile",
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ): Promise<PSIResponse> {
   const apiUrl = new URL(
-    "https://www.googleapis.com/pagespeedonline/v5/runPagespeed"
+    "https://www.googleapis.com/pagespeedonline/v5/runPagespeed",
   );
   apiUrl.searchParams.set("url", url);
   apiUrl.searchParams.set("strategy", strategy);

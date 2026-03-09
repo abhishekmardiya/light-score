@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
+import { useState } from "react";
 import { isValidUrl } from "@/lib/utils";
 
 const PASTE_SPLIT = /\s*[,\n]\s*/;
@@ -47,7 +47,7 @@ export function UrlInput({
       setDuplicateNote(
         duplicates.length === 1
           ? "This URL is already added"
-          : `${duplicates.length} URLs are already added`
+          : `${duplicates.length} URLs are already added`,
       );
     }
     if (toAdd.length > 0) {
@@ -115,7 +115,7 @@ export function UrlInput({
         </button>
       </div>
       {duplicateNote && (
-        <p className="text-sm text-amber-600 dark:text-amber-400" role="status">
+        <p className="text-sm text-amber-600 dark:text-amber-400">
           {duplicateNote}
         </p>
       )}
@@ -144,10 +144,12 @@ export function UrlInput({
                 aria-label={`Remove ${url}`}
               >
                 <svg
+                  aria-hidden="true"
                   className="h-4 w-4"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
+                  aria-label={`Remove ${url}`}
                 >
                   <path
                     strokeLinecap="round"

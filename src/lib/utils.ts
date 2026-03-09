@@ -37,7 +37,10 @@ export function downloadBlob(blob: Blob, filename: string): void {
 
 import { INSIGHT_AUDIT_IDS } from "@/lib/psi-api";
 
-export function hasHighEffectInsight(audit: { score?: number | null; displayValue?: string }): boolean {
+export function hasHighEffectInsight(audit: {
+  score?: number | null;
+  displayValue?: string;
+}): boolean {
   if (audit.score != null && audit.score < 0.5) {
     return true;
   }
@@ -51,16 +54,18 @@ export function psiResultsToCsv(
     data: {
       lighthouseResult: {
         categories?: Record<string, { score: number | null }>;
-        audits?: Record<string, { title?: string; score?: number | null; displayValue?: string }>;
+        audits?: Record<
+          string,
+          { title?: string; score?: number | null; displayValue?: string }
+        >;
       };
     };
   }>,
 ): string {
   const categoryIds = ["performance", "accessibility", "best-practices", "seo"];
-  const header = "URL,Strategy," + categoryIds.join(",") + ",Insights\n";
+  const header = `URL,Strategy,${categoryIds.join(",")},Insights\n`;
 
-  const quote = (v: string | number) =>
-    `"${String(v).replace(/"/g, '""')}"`;
+  const quote = (v: string | number) => `"${String(v).replace(/"/g, '""')}"`;
 
   const rows = results.map((r) => {
     const cats = r.data.lighthouseResult.categories ?? {};

@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { UrlInput } from "@/components/UrlInput";
+import { ExportButtons } from "@/components/ExportButtons";
 import { ProgressBar } from "@/components/ProgressBar";
 import { ResultsTable } from "@/components/ResultsTable";
-import { ExportButtons } from "@/components/ExportButtons";
-import { formatDuration } from "@/lib/utils";
-import { fetchPageSpeedInsights } from "@/lib/psi-api";
+import { UrlInput } from "@/components/UrlInput";
 import type { PSIResponse } from "@/lib/psi-api";
+import { fetchPageSpeedInsights } from "@/lib/psi-api";
+import { formatDuration } from "@/lib/utils";
 
 export type Strategy = "desktop" | "mobile";
 
@@ -61,14 +61,14 @@ export function AuditForm() {
     try {
       const startTime = Date.now();
       const settled = await Promise.allSettled(
-        urls.map((url) => fetchPageSpeedInsights(url, strategy, signal))
+        urls.map((url) => fetchPageSpeedInsights(url, strategy, signal)),
       );
 
       const newResults: PSIResultWithMeta[] = [];
       const errors: string[] = [];
 
       const wasAborted = settled.some(
-        (o) => o.status === "rejected" && o.reason?.name === "AbortError"
+        (o) => o.status === "rejected" && o.reason?.name === "AbortError",
       );
 
       settled.forEach((outcome, i) => {
@@ -195,10 +195,7 @@ export function AuditForm() {
               Abort
             </button>
           </div>
-          <ProgressBar
-            currentUrl={progress.url}
-            elapsedMs={elapsedMs}
-          />
+          <ProgressBar currentUrl={progress.url} elapsedMs={elapsedMs} />
         </section>
       )}
 

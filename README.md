@@ -10,6 +10,9 @@ Run PageSpeed Insights audits on multiple URLs. Bulk input, progress tracking, a
 - **Progress tracking** – Real-time progress while audits run
 - **Export** – Download results as JSON or CSV
 - **Client-side API calls** – Audits run from your browser via PageSpeed Insights API
+
+> Note: Since we use CSR, the API key is exposed to the client. Ensure you restrict your API key to specific domains in the Google Cloud Console to prevent unauthorized use.
+
 - **Client-rendered** – API calls and related components run on the client to reduce server bills
 
 ## API Key

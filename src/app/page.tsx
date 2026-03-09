@@ -1,5 +1,5 @@
-import { AuditForm } from "@/components/AuditForm";
 import Link from "next/link";
+import { AuditForm } from "@/components/AuditForm";
 
 export default function Home() {
   return (
@@ -28,7 +28,8 @@ export default function Home() {
               className="h-5 w-5"
               fill="currentColor"
               viewBox="0 0 24 24"
-              aria-hidden
+              aria-hidden="true"
+              aria-label="GitHub"
             >
               <path
                 fillRule="evenodd"

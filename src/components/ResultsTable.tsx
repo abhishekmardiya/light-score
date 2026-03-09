@@ -1,9 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import type { PSIResultWithMeta } from "@/components/AuditForm";
 import type { PSIAudit } from "@/lib/psi-api";
 import { INSIGHT_AUDIT_IDS } from "@/lib/psi-api";
-import Link from "next/link";
 
 function getInsightEffectScore(audit: PSIAudit): number {
   const dv = audit.displayValue ?? "";
@@ -121,9 +121,7 @@ function InsightItem({
   variant: "red" | "amber";
 }) {
   const iconColor =
-    variant === "red"
-      ? "text-red-500"
-      : "text-amber-500 dark:text-amber-400";
+    variant === "red" ? "text-red-500" : "text-amber-500 dark:text-amber-400";
   return (
     <div className="flex items-center gap-2 border-b border-zinc-100 py-2.5 last:border-b-0 dark:border-zinc-700">
       <span className={`shrink-0 text-xs ${iconColor}`}>▲</span>
@@ -163,7 +161,7 @@ export function ResultsTable({ results }: { results: PSIResultWithMeta[] }) {
           .filter(Boolean)
           .filter(hasHighEffect);
         const sortedInsights = [...insightAudits].sort(
-          (a, b) => getInsightEffectScore(b) - getInsightEffectScore(a)
+          (a, b) => getInsightEffectScore(b) - getInsightEffectScore(a),
         );
 
         const performanceScore = categories.performance?.score ?? null;
