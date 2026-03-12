@@ -47,7 +47,7 @@ export function UrlInput({
       setDuplicateNote(
         duplicates.length === 1
           ? "This URL is already added"
-          : `${duplicates.length} URLs are already added`,
+          : `${duplicates.length} URLs are already added`
       );
     }
     if (toAdd.length > 0) {
@@ -114,7 +114,7 @@ export function UrlInput({
           Add
         </button>
       </div>
-      {duplicateNote && (
+      {!!duplicateNote && (
         <p className="text-sm text-amber-600 dark:text-amber-400">
           {duplicateNote}
         </p>

@@ -4,7 +4,8 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.biome": "explicit",
     "source.removeUnusedImports": "explicit",
-    "source.addMissingImports": "explicit"
+    "source.fixAll.markdownlint": "explicit",
+    "source.action.noDuplicateClasses.biome": "explicit"
   },
   "[json]": {
     "editor.defaultFormatter": "biomejs.biome"
@@ -23,5 +24,6 @@
   },
   "[jsonc]": {
     "editor.defaultFormatter": "biomejs.biome"
-  }
+  },
+  "typescript.tsdk": "./node_modules/typescript/lib"
 }

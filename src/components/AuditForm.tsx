@@ -61,14 +61,14 @@ export function AuditForm() {
     try {
       const startTime = Date.now();
       const settled = await Promise.allSettled(
-        urls.map((url) => fetchPageSpeedInsights(url, strategy, signal)),
+        urls.map((url) => fetchPageSpeedInsights(url, strategy, signal))
       );
 
       const newResults: PSIResultWithMeta[] = [];
       const errors: string[] = [];
 
       const wasAborted = settled.some(
-        (o) => o.status === "rejected" && o.reason?.name === "AbortError",
+        (o) => o.status === "rejected" && o.reason?.name === "AbortError"
       );
 
       settled.forEach((outcome, i) => {
@@ -167,7 +167,7 @@ export function AuditForm() {
         </div>
       </section>
 
-      {error && (
+      {!!error && (
         <div
           className="mb-6 rounded-lg border border-red-200 bg-red-50 p-4 text-base text-red-800 dark:border-red-800 dark:bg-red-900/20 dark:text-red-300"
           role="alert"
@@ -176,13 +176,13 @@ export function AuditForm() {
         </div>
       )}
 
-      {isRunning && (
+      {!!isRunning && (
         <section className="mb-8 overflow-visible rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-600 dark:bg-zinc-800">
           <div className="mb-4 flex items-center justify-between gap-4">
             <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
               Progress
             </h2>
-            {strategy && (
+            {!!strategy && (
               <span className="rounded-md border border-zinc-300 px-2.5 py-1 text-sm font-medium text-zinc-700 dark:border-zinc-500 dark:text-zinc-300">
                 {strategy.charAt(0).toUpperCase() + strategy.slice(1)}
               </span>

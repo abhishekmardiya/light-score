@@ -17,9 +17,11 @@ export function isValidUrl(str: string): boolean {
   }
 }
 
+const URL_SPLIT_REGEX = /\s*[,\n]\s*/;
+
 export function parseUrls(text: string): string[] {
   return text
-    .split(/\s*[,\n]\s*/)
+    .split(URL_SPLIT_REGEX)
     .map((s) => s.trim())
     .filter((s) => s.length > 0);
 }
@@ -37,14 +39,16 @@ export function downloadBlob(blob: Blob, filename: string): void {
 
 import { INSIGHT_AUDIT_IDS } from "@/lib/psi-api";
 
+const EST_SAVINGS_REGEX = /Est savings of/i;
+
 export function hasHighEffectInsight(audit: {
   score?: number | null;
   displayValue?: string;
 }): boolean {
-  if (audit.score != null && audit.score < 0.5) {
+  if (audit.score !== null && audit.score !== undefined && audit.score < 0.5) {
     return true;
   }
-  return /Est savings of/i.test(audit.displayValue ?? "");
+  return EST_SAVINGS_REGEX.test(audit.displayValue ?? "");
 }
 
 export function psiResultsToCsv(
@@ -60,7 +64,7 @@ export function psiResultsToCsv(
         >;
       };
     };
-  }>,
+  }>
 ): string {
   const categoryIds = ["performance", "accessibility", "best-practices", "seo"];
   const header = `URL,Strategy,${categoryIds.join(",")},Insights\n`;
@@ -71,7 +75,9 @@ export function psiResultsToCsv(
     const cats = r.data.lighthouseResult.categories ?? {};
     const audits = r.data.lighthouseResult.audits ?? {};
     const scores = categoryIds.map((id) =>
-      cats[id]?.score != null ? Math.round((cats[id].score ?? 0) * 100) : "",
+      cats[id]?.score !== null && cats[id]?.score !== undefined
+        ? Math.round((cats[id].score ?? 0) * 100)
+        : ""
     );
     const insightAudits = INSIGHT_AUDIT_IDS.map((id) => audits[id])
       .filter(Boolean)

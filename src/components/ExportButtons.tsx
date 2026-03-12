@@ -18,7 +18,7 @@ function exportToJson(results: PSIResultWithMeta[]): void {
     const categories = r.data.lighthouseResult.categories ?? {};
     const audits = r.data.lighthouseResult.audits ?? {};
     const toScore = (s: number | null | undefined) =>
-      s != null ? Math.round(s * 100) : null;
+      s !== null && s !== undefined ? Math.round(s * 100) : null;
     const scores = {
       performance: toScore(categories.performance?.score),
       accessibility: toScore(categories.accessibility?.score),

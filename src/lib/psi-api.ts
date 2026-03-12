@@ -65,7 +65,10 @@ function trimResponse(raw: Record<string, unknown>): PSIResponse {
       trimmedCategories[id] = {
         id: String(cat.id ?? id),
         title: String(cat.title ?? id),
-        score: cat.score != null ? Number(cat.score) : null,
+        score:
+          cat.score !== null && cat.score !== undefined
+            ? Number(cat.score)
+            : null,
       };
     }
   }
@@ -77,7 +80,10 @@ function trimResponse(raw: Record<string, unknown>): PSIResponse {
       trimmedAudits[id] = {
         id: String(audit.id ?? id),
         title: String(audit.title ?? id),
-        score: audit.score != null ? Number(audit.score) : null,
+        score:
+          audit.score !== null && audit.score !== undefined
+            ? Number(audit.score)
+            : null,
         scoreDisplayMode: audit.scoreDisplayMode as string | undefined,
         displayValue: audit.displayValue as string | undefined,
       };
@@ -101,10 +107,10 @@ function trimResponse(raw: Record<string, unknown>): PSIResponse {
 export async function fetchPageSpeedInsights(
   url: string,
   strategy: "desktop" | "mobile",
-  signal?: AbortSignal,
+  signal?: AbortSignal
 ): Promise<PSIResponse> {
   const apiUrl = new URL(
-    "https://www.googleapis.com/pagespeedonline/v5/runPagespeed",
+    "https://www.googleapis.com/pagespeedonline/v5/runPagespeed"
   );
   apiUrl.searchParams.set("url", url);
   apiUrl.searchParams.set("strategy", strategy);

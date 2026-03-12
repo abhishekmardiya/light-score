@@ -5,9 +5,12 @@ import type { PSIResultWithMeta } from "@/components/AuditForm";
 import type { PSIAudit } from "@/lib/psi-api";
 import { INSIGHT_AUDIT_IDS } from "@/lib/psi-api";
 
+const SAVINGS_REGEX = /Est savings of ([\d,]+)\s*(KiB|ms)/i;
+const EST_SAVINGS_REGEX = /Est savings of/i;
+
 function getInsightEffectScore(audit: PSIAudit): number {
   const dv = audit.displayValue ?? "";
-  const savingsMatch = dv.match(/Est savings of ([\d,]+)\s*(KiB|ms)/i);
+  const savingsMatch = dv.match(SAVINGS_REGEX);
   if (!savingsMatch) {
     return audit.score !== null && audit.score < 0.5 ? 1 : 0;
   }
@@ -20,7 +23,7 @@ function hasHighEffect(audit: PSIAudit): boolean {
   if (audit.score !== null && audit.score < 0.5) {
     return true;
   }
-  return /Est savings of/i.test(audit.displayValue ?? "");
+  return EST_SAVINGS_REGEX.test(audit.displayValue ?? "");
 }
 
 const CATEGORY_ORDER = [
@@ -161,12 +164,12 @@ export function ResultsTable({ results }: { results: PSIResultWithMeta[] }) {
           .filter(Boolean)
           .filter(hasHighEffect);
         const sortedInsights = [...insightAudits].sort(
-          (a, b) => getInsightEffectScore(b) - getInsightEffectScore(a),
+          (a, b) => getInsightEffectScore(b) - getInsightEffectScore(a)
         );
 
         const performanceScore = categories.performance?.score ?? null;
         const isHighPerforming =
-          performanceScore != null && performanceScore >= 0.8;
+          performanceScore !== null && performanceScore >= 0.8;
         const insightVariant = isHighPerforming ? "amber" : "red";
 
         return (

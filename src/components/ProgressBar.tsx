@@ -73,7 +73,7 @@ export function ProgressBar({ currentUrl, elapsedMs }: ProgressBarProps) {
               Elapsed: {formatDuration(elapsedMs)}
             </p>
           )}
-          {currentUrl && (
+          {!!currentUrl && (
             <p className="mt-1 truncate text-xs text-zinc-400 dark:text-zinc-500">
               {currentUrl}
             </p>
