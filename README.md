@@ -44,9 +44,7 @@ npm run build
 npm start
 ```
 
-**Note:** Audits run client-side via the PageSpeed Insights API. No server-side Chrome or Node dependencies required. Deploy to any static host (Vercel, Netlify, etc.).
-
 ## Tech Stack
 
-- Next.js 16, React 19, Tailwind CSS 4
+- Next.js 16, React 19, Tailwind CSS 4, Biome
 - [PageSpeed Insights API](https://developers.google.com/speed/docs/insights/v5/get-started?utm_source=lh-chrome-ext)
